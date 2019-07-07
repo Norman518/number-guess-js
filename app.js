@@ -2,11 +2,11 @@
 
 let min = 1,
   max = 10,
-  winNum = 2,
+  winNum = getWinNum(min, max),
   guessesLeft = 3;
 
 //UI elements
-const game = document.querySelector("game"),
+const game = document.querySelector("#game"),
   minNum = document.querySelector(".min-num"),
   maxNum = document.querySelector(".max-num"),
   guessBtn = document.querySelector("#guess-btn"),
@@ -31,15 +31,15 @@ guessBtn.addEventListener("click", function() {
     guessesLeft -= 1;
     if (guessesLeft === 0) {
       gameOver(false, `No more guesses left. The correct number is ${winNum}!`);
-    } else {
-      //clear input
-      guessInput.value = "";
-      //change border color
-      guessInput.style.borderColor = "red";
-      setMessage(`${guess} is not correct, ${guessesLeft} guesses left`, "red");
     }
+    //clear input
+    guessInput.value = "";
+    //change border color
+    guessInput.style.borderColor = "red";
+    setMessage(`${guess} is not correct, ${guessesLeft} guesses left`, "red");
   }
 });
+
 //game over
 function gameOver(won, msg) {
   let color;
@@ -47,13 +47,29 @@ function gameOver(won, msg) {
   //disable
   guessInput.disabled = true;
   //change border color and text color
- message.style.color = color;
+  message.style.color = color;
   guessInput.style.borderColor = color;
   //set message
   setMessage(msg);
+  //pplay agaian
+  guessBtn.value = "Play Again";
+  guessBtn.className += "play-again";
 }
 //set message
 function setMessage(msg, color) {
   message.style.color = color;
   message.textContent = msg;
+}
+//play again
+game.addEventListener("mousedown", function(e) {
+  if (e.target.className === "play-again") {
+    window.location.reload();
+  }
+});
+
+//get win num
+function getWinNum(min, max) {
+  let randomNum = Math.floor(Math.random() * (max - min + 1) + min);
+  console.log(randomNum);
+  return randomNum;
 }
