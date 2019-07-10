@@ -1,8 +1,15 @@
-//game values
+"use strict";
 
-let min = 1,
-  max = 10,
-  winNum = getWinNum(min, max),
+//get win num
+const getWinNum = (min, max) => {
+  let randomNum = Math.floor(Math.random() * (max - min + 1) + min);
+  console.log(randomNum);
+  return randomNum;
+};
+//game values
+const min = 1,
+  max = 10;
+let winNum = getWinNum(min, max),
   guessesLeft = 3;
 
 //UI elements
@@ -14,11 +21,10 @@ const game = document.querySelector("#game"),
   message = document.querySelector(".message");
 
 //assign UI min and max
-minNum.textContent = min;
-maxNum.textContent = max;
+(minNum.textContent = min), (maxNum.textContent = max);
 
 //listen for guess
-guessBtn.addEventListener("click", function() {
+guessBtn.addEventListener("click", () => {
   let guess = parseInt(guessInput.value);
   if (isNaN(guess) || guess < min || guess > max) {
     setMessage(`Enter a number between ${min} and ${max}`, "red");
@@ -41,7 +47,7 @@ guessBtn.addEventListener("click", function() {
 });
 
 //game over
-function gameOver(won, msg) {
+const gameOver = (won, msg) => {
   let color;
   won === true ? (color = "green") : (color = "red");
   //disable
@@ -54,22 +60,15 @@ function gameOver(won, msg) {
   //pplay agaian
   guessBtn.value = "Play Again";
   guessBtn.className += "play-again";
-}
+};
 //set message
-function setMessage(msg, color) {
+const setMessage = (msg, color) => {
   message.style.color = color;
   message.textContent = msg;
-}
+};
 //play again
-game.addEventListener("mousedown", function(e) {
+game.addEventListener("mousedown", e => {
   if (e.target.className === "play-again") {
     window.location.reload();
   }
 });
-
-//get win num
-function getWinNum(min, max) {
-  let randomNum = Math.floor(Math.random() * (max - min + 1) + min);
-  console.log(randomNum);
-  return randomNum;
-}
